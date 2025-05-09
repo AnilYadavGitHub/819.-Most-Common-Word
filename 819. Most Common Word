@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string mostCommonWord(string paragraph, vector<string>& banned) {
+        
+    unordered_map<string, int> mp;
+    unordered_set<string> st(banned.begin(), banned.end());
+
+    string word;
+    for (char &ch : paragraph) {
+        if (isalpha(ch)) {
+            word += tolower(ch);
+        } else if (!word.empty()) {
+            if (st.find(word) == st.end()) {
+                mp[word]++;
+            }
+            word = "";
+        }
+    }
+
+  
+    if (!word.empty() && st.find(word) == st.end()) {
+        mp[word]++;
+    }
+
+    string ans;
+    int maxFreq = 0;
+    for (auto &entry : mp) {
+        if (entry.second > maxFreq) {
+            maxFreq = entry.second;
+            ans = entry.first;
+        }
+    }
+    return ans;
+    }
+};
